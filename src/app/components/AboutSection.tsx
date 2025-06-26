@@ -1,6 +1,7 @@
 'use client';
 
 import AnimatedSection from './AnimatedSection';
+import Image from 'next/image';
 import styles from '../page.module.css';
 
 export default function AboutSection() {
@@ -32,8 +33,15 @@ export default function AboutSection() {
           </AnimatedSection>
           
           <AnimatedSection className={styles.aboutImage} delay={0.4} direction="right">
-            <div className={styles.imagePlaceholder}>
-              <span>Foto del Taller</span>
+            <div className={styles.aboutImageContainer}>
+              <Image
+                src="/images/MainImages/mainImage.jpg"
+                alt="Taller de ebanistería Muebles S y E"
+                width={500}
+                height={400}
+                className={styles.aboutImageContent}
+                priority
+              />
             </div>
           </AnimatedSection>
         </div>

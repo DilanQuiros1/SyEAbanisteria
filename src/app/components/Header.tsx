@@ -1,10 +1,12 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import styles from '../page.module.css';
 
 export default function Header() {
   const { scrollY } = useScroll();
+  const [isFiltersMenuVisible, setIsFiltersMenuVisible] = useState(false);
   
   const headerBackground = useTransform(
     scrollY,
@@ -12,10 +14,32 @@ export default function Header() {
     ['rgba(255, 255, 255, 0.95)', 'rgba(255, 255, 255, 0.98)']
   );
 
+  // Detectar cuando el menú de filtros está visible
+  useEffect(() => {
+    const handleScroll = () => {
+      const gallerySection = document.getElementById('galeria');
+      if (gallerySection) {
+        const rect = gallerySection.getBoundingClientRect();
+        const isVisible = rect.top <= 100 && rect.bottom >= 100;
+        setIsFiltersMenuVisible(isVisible);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Verificar estado inicial
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <motion.header 
       className={styles.header}
       style={{ background: headerBackground }}
+      animate={{
+        opacity: isFiltersMenuVisible ? 0 : 1,
+        y: isFiltersMenuVisible ? -100 : 0
+      }}
+      transition={{ duration: 0.3 }}
     >
       <div className="container">
         <nav className={styles.nav}>

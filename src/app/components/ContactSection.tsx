@@ -47,7 +47,7 @@ export default function ContactSection() {
               <span className={styles.contactIcon}>📍</span>
               <div>
                 <h4>Ubicación</h4>
-                <p>San José, Costa Rica</p>
+                <p>Perez Zeledon, Costa Rica</p>
               </div>
             </motion.div>
             

@@ -63,29 +63,15 @@ export const projects: Project[] = [
     ]
   },
   {
-    id: 5,
-    title: "Puerta Interior Panelada",
-    description: "Puerta interior con paneles decorativos, diseño clásico y acabados suaves. Ideal para interiores elegantes.",
-    category: "puertas",
-    icon: "🚪",
-    images: [
-      { id: 1, name: "Vista Frontal", url: "https://res.cloudinary.com/drzxyessb/image/upload/v1750390206/interior-door-1866957_640_xy8n9q.jpg" },
-      { id: 2, name: "Detalle Paneles", url: "https://res.cloudinary.com/drzxyessb/image/upload/v1750390206/interior-door-1866958_640_xy8n9q.jpg" },
-      { id: 3, name: "Vista Lateral", url: "https://res.cloudinary.com/drzxyessb/image/upload/v1750390206/interior-door-1866959_640_xy8n9q.jpg" },
-      { id: 4, name: "Acabado Final", url: "https://res.cloudinary.com/drzxyessb/image/upload/v1750390206/interior-door-1866960_640_xy8n9q.jpg" }
-    ]
-  },
-  {
     id: 6,
     title: "Biblioteca Personalizada",
     description: "Biblioteca a medida con estantes ajustables, escalera integrada y acabados en madera noble. Funcionalidad y elegancia.",
     category: "muebles",
     icon: "🪑",
     images: [
-      { id: 1, name: "Vista General", url: "https://res.cloudinary.com/drzxyessb/image/upload/v1750390206/bookshelf-998269_640_xy8n9q.jpg" },
-      { id: 2, name: "Detalle Estantes", url: "https://res.cloudinary.com/drzxyessb/image/upload/v1750390206/bookshelf-998270_640_xy8n9q.jpg" },
-      { id: 3, name: "Vista Escalera", url: "https://res.cloudinary.com/drzxyessb/image/upload/v1750390206/bookshelf-998271_640_xy8n9q.jpg" },
-      { id: 4, name: "Acabados", url: "https://res.cloudinary.com/drzxyessb/image/upload/v1750390206/bookshelf-998272_640_xy8n9q.jpg" }
+      { id: 1, name: "Vista General", url: "/images/proyectos/biblioteca/biblioteca1.jpg" },
+      { id: 2, name: "Detalle Estantes", url: "/images/proyectos/biblioteca/biblioteca2.jpg" },
+      { id: 3, name: "Vista Escalera", url: "/images/proyectos/biblioteca/biblioteca3.jpg" },
     ]
   }
 ]; 

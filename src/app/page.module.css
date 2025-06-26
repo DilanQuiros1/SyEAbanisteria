@@ -255,6 +255,7 @@ a.secondary {
   background: linear-gradient(135deg, var(--background-light) 0%, #F5F5DC 100%);
   position: relative;
   padding: 2rem 0;
+  margin-top: 80px;
 }
 
 .hero::before {
@@ -556,7 +557,42 @@ a.secondary {
 .aboutImage .imagePlaceholder {
   width: 100%;
   height: 400px;
-  animation: float 8s ease-in-out infinite;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(210, 105, 30, 0.1) 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--text-light);
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.aboutImageContainer {
+  width: 100%;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(139, 69, 19, 0.15);
+  transition: all 0.3s ease;
+}
+
+.aboutImageContainer:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(139, 69, 19, 0.25);
+}
+
+.aboutImageContent {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.aboutImageContainer:hover .aboutImageContent {
+  transform: scale(1.05);
 }
 
 /* Services Section mejorado */
@@ -847,6 +883,29 @@ a.secondary {
   gap: 1rem;
   margin-bottom: 3rem;
   flex-wrap: wrap;
+}
+
+.fixedFiltersMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 999;
+  box-shadow: 0 4px 30px rgba(139, 69, 19, 0.1);
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+  transition: all 0.3s ease;
+  padding: 1rem 0;
+}
+
+.fixedFiltersMenu:hover {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 40px rgba(139, 69, 19, 0.15);
+}
+
+.fixedFiltersMenu .galleryFilters {
+  margin-bottom: 0;
 }
 
 .filterBtn {
@@ -1320,6 +1379,32 @@ a.secondary {
   .ctaContent p {
     font-size: 1rem;
   }
+
+  .fixedFiltersMenu {
+    padding: 0.75rem 0;
+  }
+  
+  .fixedFiltersMenu .galleryFilters {
+    gap: 0.5rem;
+  }
+  
+  .fixedFiltersMenu .filterBtn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .aboutContent {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .aboutImageContainer {
+    height: 300px;
+  }
+  
+  .aboutImageContent {
+    height: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1362,6 +1447,26 @@ a.secondary {
     width: 40px;
     height: 40px;
     font-size: 1rem;
+  }
+
+  .fixedFiltersMenu {
+    padding: 0.5rem 0;
+  }
+  
+  .fixedFiltersMenu .galleryFilters {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .fixedFiltersMenu .filterBtn {
+    width: 100%;
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+  }
+
+  .aboutImageContainer {
+    height: 250px;
   }
 }
 
@@ -1725,10 +1830,10 @@ a.secondary {
     width: 200px;
   }
 }
-
 .thumbnailImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: all 0.3s ease;
 }
+
