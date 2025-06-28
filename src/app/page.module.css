@@ -1095,6 +1095,18 @@ a.secondary {
   border-radius: 15px;
   transition: all 0.3s ease;
   overflow: hidden;
+  position: relative;
+  will-change: transform, opacity, filter;
+}
+
+/* Optimización para transiciones de imágenes */
+.mainImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity, filter;
 }
 
 .imagePlaceholder {
@@ -1141,10 +1153,11 @@ a.secondary {
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   border: 2px solid transparent;
   min-height: 0;
+  will-change: transform, box-shadow;
 }
 
 .thumbnail:hover {
@@ -1953,7 +1966,8 @@ a.secondary {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
 }
 
 /* WhatsApp Button Flotante */

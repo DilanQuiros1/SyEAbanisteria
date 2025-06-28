@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from '../page.module.css';
 import { Project, ProjectImage } from '../data/projects';
 
@@ -40,11 +40,22 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
     }
   };
 
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 1.1 },
+  // Transiciones optimizadas para imagen principal
+  const mainImageVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 1.05,
+      filter: 'blur(1px)'
+    },
     visible: { 
       opacity: 1, 
-      scale: 1
+      scale: 1,
+      filter: 'blur(0px)'
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.95,
+      filter: 'blur(1px)'
     }
   };
 
@@ -105,20 +116,28 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
       <div className={styles.projectGallery}>
         <div className={styles.galleryContainer}>
           <div className={styles.galleryImages}>
-            <motion.div 
-              className={styles.mainImage}
-              variants={imageVariants}
-              key={currentMainImage.id}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.4 }}
-            >
-              <img 
-                src={currentMainImage.url} 
-                alt={currentMainImage.name}
-                className={styles.mainImage}
-              />
-            </motion.div>
+            {/* Imagen principal con AnimatePresence para transiciones suaves */}
+            <div className={styles.mainImage}>
+              <AnimatePresence mode="wait">
+                <motion.div 
+                  key={`${project.id}-${currentMainImage.id}`}
+                  variants={mainImageVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  transition={{
+                    duration: 0.3,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                >
+                  <img 
+                    src={currentMainImage.url} 
+                    alt={currentMainImage.name}
+                    className={styles.mainImage}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
             <motion.div 
               className={styles.thumbnailGrid}
               initial={{ opacity: 0, y: 20 }}
