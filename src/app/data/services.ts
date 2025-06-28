@@ -13,7 +13,7 @@ export const services: Service[] = [
     title: "Cocinas Personalizadas",
     description: "Diseñamos y construimos cocinas únicas que se adaptan a tu espacio y estilo de vida.",
     icon: "🍳",
-    image: "/images/services/cocina.jpg",
+    image: "/images/Services/cocina.jpg",
     features: [
       "Diseño a medida",
       "Materiales premium",
@@ -26,7 +26,7 @@ export const services: Service[] = [
     title: "Puertas de Madera",
     description: "Puertas artesanales que combinan belleza y funcionalidad para tu hogar.",
     icon: "🚪",
-    image: "/images/services/puertas.jpg",
+    image: "/images/Services/puertas.jpg",
     features: [
       "Diseño personalizado",
       "Maderas seleccionadas",
@@ -39,7 +39,7 @@ export const services: Service[] = [
     title: "Muebles a Medida",
     description: "Muebles únicos que transforman tus espacios con elegancia y funcionalidad.",
     icon: "🪑",
-    image: "/images/services/muebles.jpg",
+    image: "/images/Services/muebles.jpg",
     features: [
       "Diseño exclusivo",
       "Materiales nobles",
@@ -52,7 +52,7 @@ export const services: Service[] = [
     title: "Cocinas Personalizadas",
     description: "Diseñamos y construimos cocinas únicas que se adaptan a tu espacio y estilo de vida.",
     icon: "🍳",
-    image: "/images/services/cocina2.jpg",
+    image: "/images/Services/cocina2.jpg",
     features: [
       "Diseño a medida",
       "Materiales premium",
@@ -65,7 +65,7 @@ export const services: Service[] = [
     title: "Puertas de Madera",
     description: "Puertas artesanales que combinan belleza y funcionalidad para tu hogar.",
     icon: "🚪",
-    image: "/images/services/cocina3.jpg",
+    image: "/images/Services/cocina3.jpg",
     features: [
       "Diseño personalizado",
       "Maderas seleccionadas",
