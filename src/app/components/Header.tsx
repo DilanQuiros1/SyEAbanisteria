@@ -51,7 +51,7 @@ export default function Header() {
         <nav className={styles.nav}>
           <div className={styles.logoContainer}>
             <Image
-              src="/images/Logo/logo.png"
+              src="/images/Logo/Logo.png"
               alt="Taller de ebanistería Muebles S y E"
               width={100}
               height={100}
