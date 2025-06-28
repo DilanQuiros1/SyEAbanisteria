@@ -7,6 +7,7 @@ import styles from '../page.module.css';
 export default function Header() {
   const { scrollY } = useScroll();
   const [isFiltersMenuVisible, setIsFiltersMenuVisible] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const headerBackground = useTransform(
     scrollY,
@@ -31,6 +32,11 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Cerrar menú móvil al hacer clic en un enlace
+  const handleNavLinkClick = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <motion.header 
       className={styles.header}
@@ -50,21 +56,33 @@ export default function Header() {
           >
             <h1>Muebles S y E</h1>
           </motion.div>
-          <ul className={styles.navLinks}>
+          
+          {/* Menú hamburguesa para móvil */}
+          <motion.button
+            className={styles.mobileMenuButton}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Toggle menu"
+          >
+            <span className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.active : ''}`}></span>
+            <span className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.active : ''}`}></span>
+            <span className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.active : ''}`}></span>
+          </motion.button>
+
+          {/* Menú de navegación */}
+          <ul className={`${styles.navLinks} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
             <motion.li whileHover={{ y: -2 }}>
-              <a href="#inicio" className="nav-link">Inicio</a>
+              <a href="#inicio" className="nav-link" onClick={handleNavLinkClick}>Inicio</a>
             </motion.li>
             <motion.li whileHover={{ y: -2 }}>
-              <a href="#sobre-nosotros" className="nav-link">Sobre Nosotros</a>
+              <a href="#servicios" className="nav-link" onClick={handleNavLinkClick}>Servicios</a>
             </motion.li>
             <motion.li whileHover={{ y: -2 }}>
-              <a href="#servicios" className="nav-link">Servicios</a>
+              <a href="#galeria" className="nav-link" onClick={handleNavLinkClick}>Galería</a>
             </motion.li>
             <motion.li whileHover={{ y: -2 }}>
-              <a href="#galeria" className="nav-link">Galería</a>
-            </motion.li>
-            <motion.li whileHover={{ y: -2 }}>
-              <a href="#contacto" className="nav-link">Contacto</a>
+              <a href="#contacto" className="nav-link" onClick={handleNavLinkClick}>Contacto</a>
             </motion.li>
           </ul>
         </nav>

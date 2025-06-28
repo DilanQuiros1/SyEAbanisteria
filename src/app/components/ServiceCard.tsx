@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import AnimatedCard from './AnimatedCard';
 import styles from '../page.module.css';
 import { Service } from '../data/services';
@@ -17,13 +18,13 @@ export default function ServiceCard({ service, index }: ServiceCardProps) {
       delay={index * 0.1}
     >
       <div className={styles.serviceImageContainer}>
-        <div className={styles.serviceImage}>
-          <img 
-            src={service.image} 
-            alt={service.title}
-            className={styles.serviceImage}
-          />
-        </div>
+        <Image 
+          src={service.image} 
+          alt={service.title}
+          width={400}
+          height={200}
+          className={styles.serviceImage}
+        />
         <div className={styles.serviceOverlay}>
           <span className={styles.serviceIcon}>{service.icon}</span>
         </div>
