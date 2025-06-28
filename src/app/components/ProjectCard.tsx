@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import styles from '../page.module.css';
 import { Project, ProjectImage } from '../data/projects';
 
@@ -11,12 +12,62 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, selectedImages, onImageChange }: ProjectCardProps) {
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+
   const getCurrentMainImage = (project: Project): ProjectImage => {
     const selectedImageId = selectedImages[project.id] || 1;
     return project.images.find((img) => img.id === selectedImageId) || project.images[0];
   };
 
   const currentMainImage = getCurrentMainImage(project);
+
+  // Precargar imágenes del proyecto
+  useEffect(() => {
+    console.log(loadedImages);
+    const preloadImages = async () => {
+      const newLoadingImages = new Set<string>();
+      const newLoadedImages = new Set<string>();
+      const newImageErrors = new Set<string>();
+
+      // Marcar todas las imágenes como cargando
+      project.images.forEach(img => {
+        newLoadingImages.add(img.url);
+      });
+      setLoadingImages(newLoadingImages);
+
+      // Cargar imágenes en paralelo
+      const loadPromises = project.images.map(async (image) => {
+        try {
+          const img = new Image();
+          await new Promise((resolve, reject) => {
+            img.onload = () => {
+              newLoadedImages.add(image.url);
+              newLoadingImages.delete(image.url);
+              resolve(image.url);
+            };
+            img.onerror = () => {
+              newImageErrors.add(image.url);
+              newLoadingImages.delete(image.url);
+              reject(new Error(`Failed to load: ${image.url}`));
+            };
+            img.src = image.url;
+          });
+        } catch (error) {
+          console.warn(`Error loading image: ${image.url}`, error);
+        }
+      });
+
+      await Promise.allSettled(loadPromises);
+      
+      setLoadedImages(newLoadedImages);
+      setLoadingImages(newLoadingImages);
+      setImageErrors(newImageErrors);
+    };
+
+    preloadImages();
+  }, [project.images]);
 
   // Configuración de animaciones mejoradas
   const cardVariants = {
@@ -66,6 +117,26 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
       scale: 1
     }
   };
+
+  // Componente de estado de carga
+  const LoadingState = ({ message }: { message: string }) => (
+    <div className={styles.imageLoadingState}>
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        className={styles.loadingSpinner}
+      />
+      <p className={styles.loadingMessage}>{message}</p>
+    </div>
+  );
+
+  // Componente de error de imagen
+  const ErrorState = ({ message }: { message: string }) => (
+    <div className={styles.imageErrorState}>
+      <span className={styles.errorIcon}>⚠️</span>
+      <p className={styles.errorMessage}>{message}</p>
+    </div>
+  );
 
   return (
     <motion.div 
@@ -130,11 +201,17 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
                     ease: [0.25, 0.46, 0.45, 0.94]
                   }}
                 >
-                  <img 
-                    src={currentMainImage.url} 
-                    alt={currentMainImage.name}
-                    className={styles.mainImage}
-                  />
+                  {loadingImages.has(currentMainImage.url) ? (
+                    <LoadingState message="Cargando imagen de alta calidad..." />
+                  ) : imageErrors.has(currentMainImage.url) ? (
+                    <ErrorState message="Imagen no disponible" />
+                  ) : (
+                    <img 
+                      src={currentMainImage.url} 
+                      alt={currentMainImage.name}
+                      className={styles.mainImage}
+                    />
+                  )}
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -159,11 +236,25 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <img 
-                    src={image.url} 
-                    alt={image.name}
-                    className={styles.thumbnailImage}
-                  />
+                  {loadingImages.has(image.url) ? (
+                    <div className={styles.thumbnailLoading}>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className={styles.thumbnailSpinner}
+                      />
+                    </div>
+                  ) : imageErrors.has(image.url) ? (
+                    <div className={styles.thumbnailError}>
+                      <span>⚠️</span>
+                    </div>
+                  ) : (
+                    <img 
+                      src={image.url} 
+                      alt={image.name}
+                      className={styles.thumbnailImage}
+                    />
+                  )}
                 </motion.div>
               ))}
             </motion.div>
