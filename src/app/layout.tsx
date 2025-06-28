@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   title: "Muebles S y E - Ebanistería de Calidad y Diseño",
   description: "Muebles S y E: Donde la madera cobra vida en tus espacios. Ebanistería profesional con diseños únicos y personalizados para tu hogar.",
   keywords: "ebanistería, muebles, cocinas, puertas, madera, carpintería, diseño personalizado",
+
 };
 
 export default function RootLayout({
@@ -27,6 +29,7 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );

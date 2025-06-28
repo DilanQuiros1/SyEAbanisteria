@@ -21,22 +21,31 @@ export default function ContactSection() {
             <motion.div 
               className={styles.contactItem}
               whileHover={{ x: 10 }}
+              onClick={() => {
+                window.location.href = 'tel:+50683352042';
+              }}
+              style={{ cursor: 'pointer' }}
             >
               <span className={styles.contactIcon}>📞</span>
               <div>
                 <h4>Teléfono</h4>
-                <p>+506 8888-8888</p>
+                <p>+506 8335-2042</p>
               </div>
             </motion.div>
             
             <motion.div 
               className={styles.contactItem}
               whileHover={{ x: 10 }}
+              onClick={() => {
+                const message = `Hola, me interesa obtener una cotización para un proyecto!"`;
+                const whatsappUrl = `https://wa.me/50683352042?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+              }}
             >
               <span className={styles.contactIcon}>📧</span>
               <div>
-                <h4>Email</h4>
-                <p>info@artemadera.com</p>
+                <h4>Whatsapp</h4>
+                <p>+506 8335-2042</p>
               </div>
             </motion.div>
             

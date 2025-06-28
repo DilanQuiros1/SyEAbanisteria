@@ -193,6 +193,12 @@ a.secondary {
   padding: 1rem 0;
 }
 
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .logo h1 {
   font-size: 2rem;
   font-weight: 800;
@@ -1365,6 +1371,16 @@ a.secondary {
     padding: 1rem 0;
   }
 
+  .logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
   /* Mostrar botón hamburguesa en móvil */
   .mobileMenuButton {
     display: flex;
@@ -1622,6 +1638,13 @@ a.secondary {
   
   .aboutImageContent {
     height: 100%;
+  }
+
+  .whatsappButton {
+    bottom: 20px;
+    left: 20px;
+    width: 55px;
+    height: 55px;
   }
 }
 
@@ -1931,5 +1954,50 @@ a.secondary {
   height: 100%;
   object-fit: cover;
   transition: all 0.3s ease;
+}
+
+/* WhatsApp Button Flotante */
+.whatsappButton {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.whatsappButton:hover {
+  background: #128C7E;
+  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+  transform: translateY(-2px);
+}
+
+.whatsappButton svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+  .whatsappButton {
+    bottom: 20px;
+    left: 20px;
+    width: 55px;
+    height: 55px;
+  }
+  
+  .whatsappButton svg {
+    width: 28px;
+    height: 28px;
+  }
 }
 

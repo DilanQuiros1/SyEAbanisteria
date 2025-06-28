@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import styles from '../page.module.css';
@@ -49,13 +49,21 @@ export default function Header() {
     >
       <div className="container">
         <nav className={styles.nav}>
-          <motion.div 
-            className={styles.logo}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <h1>Muebles S y E</h1>
-          </motion.div>
+          <div className={styles.logoContainer}>
+            <Image
+              src="/images/Logo/logo.png"
+              alt="Taller de ebanistería Muebles S y E"
+              width={100}
+              height={100}
+            />
+            <motion.div 
+              className={styles.logo}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <h1>Muebles S y E</h1>
+            </motion.div>
+          </div>
           
           {/* Menú hamburguesa para móvil */}
           <motion.button
