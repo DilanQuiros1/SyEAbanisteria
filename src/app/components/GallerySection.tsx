@@ -99,20 +99,12 @@ export default function GallerySection({ projects }: GallerySectionProps) {
     visible: { 
       opacity: 1, 
       y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
+      scale: 1
     },
     exit: { 
       opacity: 0, 
       y: -20,
-      scale: 0.95,
-      transition: {
-        duration: 0.3,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
+      scale: 0.95
     }
   };
 
@@ -283,7 +275,7 @@ export default function GallerySection({ projects }: GallerySectionProps) {
                 </motion.div>
               ) : (
                 // Proyectos filtrados
-                filteredProjects.map((project, index) => (
+                filteredProjects.map((project) => (
                   <motion.div
                     key={`${activeTab}-${project.id}`}
                     variants={itemVariants}
@@ -295,7 +287,6 @@ export default function GallerySection({ projects }: GallerySectionProps) {
                   >
                     <ProjectCard 
                       project={project}
-                      index={index}
                       selectedImages={selectedImages}
                       onImageChange={changeMainImage}
                     />

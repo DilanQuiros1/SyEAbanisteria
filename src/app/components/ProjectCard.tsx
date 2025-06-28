@@ -6,12 +6,11 @@ import { Project, ProjectImage } from '../data/projects';
 
 interface ProjectCardProps {
   project: Project;
-  index: number;
   selectedImages: {[key: number]: number};
   onImageChange: (projectId: number, imageId: number) => void;
 }
 
-export default function ProjectCard({ project, index, selectedImages, onImageChange }: ProjectCardProps) {
+export default function ProjectCard({ project, selectedImages, onImageChange }: ProjectCardProps) {
   const getCurrentMainImage = (project: Project): ProjectImage => {
     const selectedImageId = selectedImages[project.id] || 1;
     return project.images.find((img) => img.id === selectedImageId) || project.images[0];
