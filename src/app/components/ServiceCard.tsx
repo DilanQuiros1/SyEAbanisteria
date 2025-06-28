@@ -53,6 +53,11 @@ export default function ServiceCard({ service, index }: ServiceCardProps) {
           className={styles.serviceButton}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            const message = `Hola, me interesa cotizar el servicio de ${service.title}`;
+            const whatsappUrl = `https://wa.me/50683352042?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+          }}
         >
           Cotizar
         </motion.button>

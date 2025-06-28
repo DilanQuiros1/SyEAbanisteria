@@ -1473,8 +1473,19 @@ a.secondary {
   }
 
   .contactContent {
-    grid-template-columns: 1fr;
+    flex-direction: column !important;
     gap: 2rem;
+    align-items: stretch;
+  }
+
+  .contactInfo {
+    flex: none !important;
+    width: 100%;
+  }
+
+  .contactForm {
+    flex: none !important;
+    width: 100%;
   }
 
   .servicesGrid {
@@ -1756,10 +1767,14 @@ a.secondary {
 
 .contactContent {
   display: flex;
-  flex-direction: column;
-  grid-template-columns: 1fr 1fr;
+  flex-direction: row;
   gap: 4rem;
   margin-top: 3rem;
+  align-items: flex-start;
+}
+
+.contactInfo {
+  flex: 1;
 }
 
 .contactInfo h3 {
@@ -1806,6 +1821,7 @@ a.secondary {
 }
 
 .contactForm {
+  flex: 1;
   background: white;
   padding: 2.5rem;
   border-radius: var(--border-radius-large);

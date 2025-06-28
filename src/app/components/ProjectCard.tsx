@@ -199,6 +199,11 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
             transition: { duration: 0.2 }
           }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            const message = `Hola, me interesa obtener una cotización para un proyecto similar a "${project.title}"`;
+            const whatsappUrl = `https://wa.me/50683352042?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+          }}
         >
           Obtener Una Cotizacion
         </motion.button>
