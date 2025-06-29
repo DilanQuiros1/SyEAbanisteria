@@ -15,6 +15,7 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const getCurrentMainImage = (project: Project): ProjectImage => {
     const selectedImageId = selectedImages[project.id] || 1;
@@ -69,6 +70,87 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
     preloadImages();
   }, [project.images]);
 
+  // Navegación entre imágenes
+  const nextImage = () => {
+    const nextIndex = (currentImageIndex + 1) % project.images.length;
+    setCurrentImageIndex(nextIndex);
+    onImageChange(project.id, project.images[nextIndex].id);
+  };
+
+  const prevImage = () => {
+    const prevIndex = currentImageIndex === 0 ? project.images.length - 1 : currentImageIndex - 1;
+    setCurrentImageIndex(prevIndex);
+    onImageChange(project.id, project.images[prevIndex].id);
+  };
+
+  // Navegación con teclado
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (project.images.length <= 1) return;
+      
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          prevImage();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          nextImage();
+          break;
+        case 'Home':
+          event.preventDefault();
+          setCurrentImageIndex(0);
+          onImageChange(project.id, project.images[0].id);
+          break;
+        case 'End':
+          event.preventDefault();
+          const lastIndex = project.images.length - 1;
+          setCurrentImageIndex(lastIndex);
+          onImageChange(project.id, project.images[lastIndex].id);
+          break;
+      }
+    };
+
+    // Solo agregar listener si hay más de una imagen
+    if (project.images.length > 1) {
+      document.addEventListener('keydown', handleKeyPress);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [currentImageIndex, project.images, project.id, onImageChange]);
+
+  // Gestos táctiles
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextImage();
+    }
+    if (isRightSwipe) {
+      prevImage();
+    }
+  };
+
   // Configuración de animaciones mejoradas
   const cardVariants = {
     hidden: { 
@@ -107,14 +189,6 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
       opacity: 0,
       scale: 0.95,
       filter: 'blur(1px)'
-    }
-  };
-
-  const thumbnailVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
-      scale: 1
     }
   };
 
@@ -186,78 +260,107 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
       
       <div className={styles.projectGallery}>
         <div className={styles.galleryContainer}>
-          <div className={styles.galleryImages}>
-            {/* Imagen principal con AnimatePresence para transiciones suaves */}
-            <div className={styles.mainImage}>
-              <AnimatePresence mode="wait">
-                <motion.div 
-                  key={`${project.id}-${currentMainImage.id}`}
-                  variants={mainImageVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  transition={{
-                    duration: 0.3,
-                    ease: [0.25, 0.46, 0.45, 0.94]
-                  }}
+          {/* Imagen principal con controles de navegación */}
+          <div 
+            className={styles.mainImageContainer}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={`${project.id}-${currentMainImage.id}`}
+                variants={mainImageVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{
+                  duration: 0.4,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+                className={styles.mainImageWrapper}
+              >
+                {loadingImages.has(currentMainImage.url) ? (
+                  <LoadingState message="Cargando imagen de alta calidad..." />
+                ) : imageErrors.has(currentMainImage.url) ? (
+                  <ErrorState message="Imagen no disponible" />
+                ) : (
+                  <img 
+                    src={currentMainImage.url} 
+                    alt={currentMainImage.name}
+                    className={styles.mainImage}
+                  />
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Controles de navegación */}
+            {project.images.length > 1 && (
+              <>
+                <motion.button
+                  className={styles.navButton}
+                  onClick={prevImage}
+                  whileHover={{ scale: 1.1, backgroundColor: 'rgba(139, 69, 19, 0.9)' }}
+                  whileTap={{ scale: 0.9 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6, duration: 0.3 }}
+                  style={{ left: '20px' }}
+                  aria-label="Imagen anterior"
                 >
-                  {loadingImages.has(currentMainImage.url) ? (
-                    <LoadingState message="Cargando imagen de alta calidad..." />
-                  ) : imageErrors.has(currentMainImage.url) ? (
-                    <ErrorState message="Imagen no disponible" />
-                  ) : (
-                    <img 
-                      src={currentMainImage.url} 
-                      alt={currentMainImage.name}
-                      className={styles.mainImage}
-                    />
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-            <motion.div 
-              className={styles.thumbnailGrid}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              {project.images.map((image, imageIndex) => (
-                <motion.div 
-                  key={image.id}
-                  className={`${styles.thumbnail} ${selectedImages[project.id] === image.id ? styles.active : ''}`}
-                  onClick={() => onImageChange(project.id, image.id)}
-                  variants={thumbnailVariants}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 0.5 + imageIndex * 0.1, duration: 0.3 }}
-                  whileHover={{ 
-                    scale: 1.1,
-                    boxShadow: '0 4px 15px rgba(139, 69, 19, 0.2)'
-                  }}
-                  whileTap={{ scale: 0.95 }}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                  </svg>
+                </motion.button>
+
+                <motion.button
+                  className={styles.navButton}
+                  onClick={nextImage}
+                  whileHover={{ scale: 1.1, backgroundColor: 'rgba(139, 69, 19, 0.9)' }}
+                  whileTap={{ scale: 0.9 }}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6, duration: 0.3 }}
+                  style={{ right: '20px' }}
+                  aria-label="Siguiente imagen"
                 >
-                  {loadingImages.has(image.url) ? (
-                    <div className={styles.thumbnailLoading}>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className={styles.thumbnailSpinner}
-                      />
-                    </div>
-                  ) : imageErrors.has(image.url) ? (
-                    <div className={styles.thumbnailError}>
-                      <span>⚠️</span>
-                    </div>
-                  ) : (
-                    <img 
-                      src={image.url} 
-                      alt={image.name}
-                      className={styles.thumbnailImage}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                </motion.button>
+
+                {/* Indicadores de imagen */}
+                <motion.div 
+                  className={styles.imageIndicators}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7, duration: 0.3 }}
+                >
+                  {project.images.map((_, index) => (
+                    <motion.div
+                      key={index}
+                      className={`${styles.indicator} ${index === currentImageIndex ? styles.active : ''}`}
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.8 }}
+                      onClick={() => {
+                        setCurrentImageIndex(index);
+                        onImageChange(project.id, project.images[index].id);
+                      }}
                     />
-                  )}
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
+
+                {/* Contador de imágenes */}
+                <motion.div 
+                  className={styles.imageCounter}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.3 }}
+                >
+                  {currentImageIndex + 1} / {project.images.length}
+                </motion.div>
+              </>
+            )}
           </div>
         </div>
         

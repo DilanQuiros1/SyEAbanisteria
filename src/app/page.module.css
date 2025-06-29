@@ -167,7 +167,7 @@ a.secondary {
   }
 }
 
-/* Header mejorado */
+/* Header mejorado con transiciones ultra suaves */
 .header {
   position: fixed;
   top: 0;
@@ -178,12 +178,15 @@ a.secondary {
   z-index: 1000;
   box-shadow: 0 4px 30px rgba(139, 69, 19, 0.1);
   border-bottom: 1px solid rgba(139, 69, 19, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .header:hover {
   background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 8px 40px rgba(139, 69, 19, 0.15);
+  transform: translateY(0) scale(1);
 }
 
 .nav {
@@ -191,12 +194,15 @@ a.secondary {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .logoContainer {
   display: flex;
   align-items: center;
   gap: 1rem;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
 }
 
 .logo h1 {
@@ -207,7 +213,7 @@ a.secondary {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .logo h1:hover {
@@ -220,6 +226,8 @@ a.secondary {
   gap: 2.5rem;
   margin: 0;
   align-items: center;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
 }
 
 .navLinks a {
@@ -227,9 +235,10 @@ a.secondary {
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   padding: 0.5rem 0;
+  transform-style: preserve-3d;
 }
 
 .navLinks a::after {
@@ -240,7 +249,7 @@ a.secondary {
   width: 0;
   height: 2px;
   background: var(--gradient-primary);
-  transition: width 0.3s ease;
+  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .navLinks a:hover::after {
@@ -249,7 +258,7 @@ a.secondary {
 
 .navLinks a:hover {
   color: var(--primary-color);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.05);
 }
 
 /* Botón hamburguesa para móvil */
@@ -264,6 +273,8 @@ a.secondary {
   cursor: pointer;
   padding: 0;
   z-index: 1002;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
 }
 
 .hamburgerLine {
@@ -271,7 +282,7 @@ a.secondary {
   height: 3px;
   background: var(--primary-color);
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: center;
 }
 
@@ -926,6 +937,7 @@ a.secondary {
   gap: 1rem;
   margin-bottom: 3rem;
   flex-wrap: wrap;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .fixedFiltersMenu {
@@ -938,14 +950,16 @@ a.secondary {
   z-index: 1001;
   box-shadow: 0 4px 30px rgba(139, 69, 19, 0.1);
   border-bottom: 1px solid rgba(139, 69, 19, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding: 1rem 0;
   pointer-events: auto;
+  transform-style: preserve-3d;
 }
 
 .fixedFiltersMenu:hover {
   background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 8px 40px rgba(139, 69, 19, 0.15);
+  transform: translateY(0) scale(1);
 }
 
 .fixedFiltersMenu .galleryFilters {
@@ -960,18 +974,36 @@ a.secondary {
   border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   font-size: 0.9rem;
   pointer-events: auto;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+
+.filterBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.filterBtn:hover::before {
+  left: 100%;
 }
 
 .filterBtn:hover,
 .filterBtn.active {
   background: var(--primary-color);
   color: white;
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.05);
   box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);
 }
 
@@ -1079,6 +1111,7 @@ a.secondary {
   overflow: hidden;
   background: white;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+
 }
 
 .galleryImages {
@@ -1088,57 +1121,319 @@ a.secondary {
   padding: 1.5rem;
 }
 
-.mainImage {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 15px;
-  transition: all 0.3s ease;
-  overflow: hidden;
+.mainImageContainer {
   position: relative;
-  will-change: transform, opacity, filter;
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Optimización para transiciones de imágenes */
-.mainImage img {
+.mainImageContainer:active {
+  cursor: grabbing;
+}
+
+.mainImageContainer:hover {
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.mainImageWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.mainImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 15px;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform, opacity, filter;
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.imagePlaceholder {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #8B4513, #D2691E, #CD853F, #DEB887);
+/* Botones de navegación */
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: rgba(139, 69, 19, 0.8);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.imagePlaceholder::before {
-  content: '';
+.navButton:hover {
+  background: rgba(139, 69, 19, 0.95);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.navButton svg {
+  width: 20px;
+  height: 20px;
+  stroke: white;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Indicadores de imagen */
+.imageIndicators {
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  animation: shimmer 3s infinite;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
 }
 
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.indicator.active {
+  background: var(--primary-color);
+  border-color: white;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+}
+
+.indicator.active:hover {
+  background: var(--primary-color);
+  transform: scale(1.3);
+}
+
+/* Contador de imágenes */
+.imageCounter {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive para controles de navegación */
+@media (max-width: 768px) {
+  .mainImageContainer {
+    height: 350px;
+    border-radius: 15px;
+    margin: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .mainImageContainer:hover {
+    transform: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .mainImage {
+    border-radius: 15px;
+  }
+
+  .navButton {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navButton svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .imageIndicators {
+    bottom: 15px;
+    gap: 6px;
+  }
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+  }
+
+  .imageCounter {
+    top: 15px;
+    right: 15px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  /* Optimización específica para móvil */
+  .projectShowcase {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .projectHeader {
+    margin-bottom: 1rem;
+  }
+
+  .projectGallery {
+    margin-bottom: 1rem;
+  }
+
+  .galleryContainer {
+    margin: 0;
+  }
+
+  .projectFeatures {
+    margin-top: 1rem;
+    gap: 0.6rem;
+  }
+
+  .projectActions {
+    margin-top: 1rem;
+    gap: 0.8rem;
+  }
+
+  .projectTitle {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .projectDescription {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .projectCategory {
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .projectRating {
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainImageContainer {
+    height: 280px;
+    border-radius: 12px;
+    margin: 0;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .galleryContainer {
+    height: 200px;
+  }
+
+  .mainImageContainer:hover {
+    transform: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .mainImage {
+    border-radius: 12px;
+  }
+
+  .navButton {
+    width: 35px;
+    height: 35px;
+  }
+
+  .navButton svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .imageIndicators {
+    bottom: 10px;
+    gap: 5px;
+  }
+
+  .indicator {
+    width: 8px;
+    height: 8px;
+  }
+
+  .imageCounter {
+    top: 10px;
+    right: 10px;
+    padding: 5px 8px;
+    font-size: 0.75rem;
+  }
+
+  /* Optimización extrema para móvil pequeño */
+  .projectShowcase {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .projectHeader {
+    margin-bottom: 1rem;
+  }
+
+  .projectGallery {
+    margin-bottom: 1rem;
+  }
+
+  .galleryContainer {
+    margin: 0;
+  }
+
+  .projectFeatures {
+    margin-top: 1rem;
+    gap: 0.6rem;
+  }
+
+  .projectActions {
+    margin-top: 1rem;
+    gap: 0.8rem;
+  }
+
+  .projectTitle {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .projectDescription {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .projectCategory {
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .projectRating {
+    padding: 0.5rem 1rem;
+  }
 }
 
 .thumbnailGrid {
@@ -1227,28 +1522,6 @@ a.secondary {
   justify-content: space-between;
   padding: 0 1rem;
   pointer-events: none;
-}
-
-.navButton {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(139, 69, 19, 0.8);
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  pointer-events: all;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.navIcon {
-  font-weight: 700;
 }
 
 .projectFeatures {
@@ -1415,16 +1688,20 @@ a.secondary {
     gap: 2rem;
     box-shadow: -5px 0 30px rgba(139, 69, 19, 0.1);
     z-index: 1001;
-    transition: right 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-left: 1px solid rgba(139, 69, 19, 0.1);
+    transform-style: preserve-3d;
   }
 
   .navLinks.mobileMenuOpen {
     right: 0;
+    transform: translateX(0) scale(1);
   }
 
   .navLinks li {
     width: 100%;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-style: preserve-3d;
   }
 
   .navLinks a {
@@ -1434,11 +1711,14 @@ a.secondary {
     font-size: 1.2rem;
     font-weight: 600;
     border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-style: preserve-3d;
   }
 
   .navLinks a:hover {
     background: rgba(139, 69, 19, 0.05);
     padding-left: 1rem;
+    transform: translateX(5px) scale(1.02);
   }
 
   .hero {
@@ -2184,6 +2464,215 @@ a.secondary {
   
   .thumbnailError {
     font-size: 0.9rem;
+  }
+}
+
+/* Estilos para la sección del mapa */
+.mapSection {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.mapTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mapSubtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.mapContainer {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto 2rem auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(139, 69, 19, 0.15);
+  background: white;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mapContainer:hover {
+  box-shadow: 0 30px 80px rgba(139, 69, 19, 0.25);
+  transform: translateY(-5px);
+}
+
+/* Sección de información fuera del mapa */
+.mapInfoSection {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.mapInfoCard {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 15px 40px rgba(139, 69, 19, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mapInfoCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(139, 69, 19, 0.15);
+}
+
+.mapIcon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.mapInfoContent {
+  flex: 1;
+  text-align: left;
+}
+
+.mapInfoContent h4 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 0.5rem 0;
+}
+
+.mapInfoContent p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.mapDescription {
+  font-size: 1rem !important;
+  color: #888 !important;
+  margin-bottom: 1.5rem !important;
+  font-style: italic;
+}
+
+.mapButton {
+  background: linear-gradient(135deg, var(--primary-color), #D2691E);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.mapButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);
+  background: linear-gradient(135deg, #D2691E, var(--primary-color));
+}
+
+/* Responsive para el mapa */
+@media (max-width: 768px) {
+  .mapSection {
+    margin-top: 3rem;
+  }
+
+  .mapTitle {
+    font-size: 2rem;
+  }
+
+  .mapSubtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .mapContainer {
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+  }
+
+  .mapInfoCard {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 15px;
+  }
+
+  .mapIcon {
+    font-size: 2.5rem;
+  }
+
+  .mapInfoContent {
+    text-align: center;
+  }
+
+  .mapInfoContent h4 {
+    font-size: 1.5rem;
+  }
+
+  .mapInfoContent p {
+    font-size: 1rem;
+  }
+
+  .mapDescription {
+    font-size: 0.9rem !important;
+  }
+
+  .mapButton {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mapTitle {
+    font-size: 1.8rem;
+  }
+
+  .mapSubtitle {
+    font-size: 1rem;
+  }
+
+  .mapInfoCard {
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+
+  .mapIcon {
+    font-size: 2rem;
+  }
+
+  .mapInfoContent h4 {
+    font-size: 1.3rem;
+  }
+
+  .mapInfoContent p {
+    font-size: 0.9rem;
+  }
+
+  .mapDescription {
+    font-size: 0.85rem !important;
+  }
+
+  .mapButton {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.85rem;
   }
 }
 

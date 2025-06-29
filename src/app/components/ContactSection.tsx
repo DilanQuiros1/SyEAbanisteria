@@ -120,6 +120,67 @@ export default function ContactSection() {
             </motion.form>
           </AnimatedSection>
         </div>
+
+        {/* Sección del Mapa */}
+        <AnimatedSection delay={0.6}>
+          <motion.div 
+            className={styles.mapSection}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <h3 className={styles.mapTitle}>Nuestra Ubicación</h3>
+            <p className={styles.mapSubtitle}>
+              Visítanos en Pérez Zeledón, Costa Rica. Estamos aquí para ayudarte con tu proyecto de ebanistería.
+            </p>
+            
+            <motion.div 
+              className={styles.mapContainer}
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <iframe
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Perez+Zeledon,Costa+Rica"
+                width="100%"
+                height="400"
+                style={{ border: 0, borderRadius: '20px' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Ubicación de Muebles S y E en Pérez Zeledón, Costa Rica"
+              ></iframe>
+            </motion.div>
+
+            {/* Información del negocio fuera del mapa */}
+            <motion.div 
+              className={styles.mapInfoSection}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.5 }}
+            >
+              <div className={styles.mapInfoCard}>
+                <span className={styles.mapIcon}>📍</span>
+                <div className={styles.mapInfoContent}>
+                  <h4>Muebles S y E</h4>
+                  <p>Pérez Zeledón, Costa Rica</p>
+                  <p className={styles.mapDescription}>
+                    Taller de ebanistería especializado en cocinas, puertas y muebles personalizados
+                  </p>
+                  <motion.button 
+                    className={styles.mapButton}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      window.open('https://maps.google.com/?q=Perez+Zeledon+Costa+Rica', '_blank');
+                    }}
+                  >
+                    Ver en Google Maps
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </AnimatedSection>
       </div>
     </section>
   );

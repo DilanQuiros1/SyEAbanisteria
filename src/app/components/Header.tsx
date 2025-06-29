@@ -15,14 +15,20 @@ export default function Header() {
     ['rgba(255, 255, 255, 0.95)', 'rgba(255, 255, 255, 0.98)']
   );
 
-  // Detectar cuando el menú de filtros está visible
+  // Detectar cuando el menú de filtros está visible con transición más suave
   useEffect(() => {
     const handleScroll = () => {
       const gallerySection = document.getElementById('galeria');
       if (gallerySection) {
         const rect = gallerySection.getBoundingClientRect();
         const isVisible = rect.top <= 100 && rect.bottom >= 100;
-        setIsFiltersMenuVisible(isVisible);
+        
+        // Transición más suave con delay
+        if (isVisible !== isFiltersMenuVisible) {
+          setTimeout(() => {
+            setIsFiltersMenuVisible(isVisible);
+          }, 100);
+        }
       }
     };
 
@@ -30,7 +36,7 @@ export default function Header() {
     handleScroll(); // Verificar estado inicial
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isFiltersMenuVisible]);
 
   // Cerrar menú móvil al hacer clic en un enlace
   const handleNavLinkClick = () => {
@@ -43,19 +49,43 @@ export default function Header() {
       style={{ background: headerBackground }}
       animate={{
         opacity: isFiltersMenuVisible ? 0 : 1,
-        y: isFiltersMenuVisible ? -100 : 0
+        y: isFiltersMenuVisible ? -100 : 0,
+        scale: isFiltersMenuVisible ? 0.95 : 1
       }}
-      transition={{ duration: 0.3 }}
+      transition={{ 
+        duration: 0.6, 
+        ease: [0.25, 0.46, 0.45, 0.94],
+        opacity: { duration: 0.4 },
+        y: { duration: 0.5 },
+        scale: { duration: 0.3 }
+      }}
     >
       <div className="container">
         <nav className={styles.nav}>
-          <div className={styles.logoContainer}>
-            <Image
-              src="/images/Logo/Logo.png"
-              alt="Taller de ebanistería Muebles S y E"
-              width={100}
-              height={100}
-            />
+          <motion.div 
+            className={styles.logoContainer}
+            animate={{
+              opacity: isFiltersMenuVisible ? 0 : 1,
+              x: isFiltersMenuVisible ? -20 : 0
+            }}
+            transition={{ 
+              duration: 0.4, 
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: isFiltersMenuVisible ? 0 : 0.1
+            }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Image
+                src="/images/Logo/Logo.png"
+                alt="Taller de ebanistería Muebles S y E"
+                width={100}
+                height={100}
+              />
+            </motion.div>
             <motion.div 
               className={styles.logo}
               whileHover={{ scale: 1.05 }}
@@ -63,15 +93,24 @@ export default function Header() {
             >
               <h1>Muebles S y E</h1>
             </motion.div>
-          </div>
+          </motion.div>
           
           {/* Menú hamburguesa para móvil */}
           <motion.button
             className={styles.mobileMenuButton}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.9 }}
             aria-label="Toggle menu"
+            animate={{
+              opacity: isFiltersMenuVisible ? 0 : 1,
+              scale: isFiltersMenuVisible ? 0.8 : 1
+            }}
+            transition={{ 
+              duration: 0.3, 
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: isFiltersMenuVisible ? 0 : 0.2
+            }}
           >
             <span className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.active : ''}`}></span>
             <span className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.active : ''}`}></span>
@@ -79,20 +118,42 @@ export default function Header() {
           </motion.button>
 
           {/* Menú de navegación */}
-          <ul className={`${styles.navLinks} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
-            <motion.li whileHover={{ y: -2 }}>
-              <a href="#inicio" className="nav-link" onClick={handleNavLinkClick}>Inicio</a>
-            </motion.li>
-            <motion.li whileHover={{ y: -2 }}>
-              <a href="#servicios" className="nav-link" onClick={handleNavLinkClick}>Servicios</a>
-            </motion.li>
-            <motion.li whileHover={{ y: -2 }}>
-              <a href="#galeria" className="nav-link" onClick={handleNavLinkClick}>Galería</a>
-            </motion.li>
-            <motion.li whileHover={{ y: -2 }}>
-              <a href="#contacto" className="nav-link" onClick={handleNavLinkClick}>Contacto</a>
-            </motion.li>
-          </ul>
+          <motion.ul 
+            className={`${styles.navLinks} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}
+            animate={{
+              opacity: isFiltersMenuVisible ? 0 : 1,
+              y: isFiltersMenuVisible ? -10 : 0
+            }}
+            transition={{ 
+              duration: 0.4, 
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: isFiltersMenuVisible ? 0 : 0.3
+            }}
+          >
+            {[
+              { href: '#inicio', text: 'Inicio' },
+              { href: '#servicios', text: 'Servicios' },
+              { href: '#galeria', text: 'Galería' },
+              { href: '#contacto', text: 'Contacto' }
+            ].map((link, index) => (
+              <motion.li 
+                key={link.href}
+                whileHover={{ y: -3, scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.3, 
+                  delay: 0.4 + index * 0.1,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+              >
+                <a href={link.href} className="nav-link" onClick={handleNavLinkClick}>
+                  {link.text}
+                </a>
+              </motion.li>
+            ))}
+          </motion.ul>
         </nav>
       </div>
     </motion.header>
