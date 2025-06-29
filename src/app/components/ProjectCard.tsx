@@ -16,6 +16,7 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
   const getCurrentMainImage = (project: Project): ProjectImage => {
     const selectedImageId = selectedImages[project.id] || 1;
@@ -23,6 +24,30 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
   };
 
   const currentMainImage = getCurrentMainImage(project);
+
+  // Manejar carga de imagen principal
+  const handleImageLoad = () => {
+    // La imagen se cargó, pero mantenemos el spinner por 1.1 segundos
+    console.log('Imagen cargada:', currentMainImage.url);
+  };
+
+  const handleImageError = () => {
+    // Error de imagen, pero mantenemos el spinner por 1.1 segundos
+    console.log('Error cargando imagen:', currentMainImage.url);
+    setImageErrors(prev => new Set(prev).add(currentMainImage.url));
+  };
+
+  // Mostrar spinner por 1.1 segundos cada vez que cambia la imagen
+  useEffect(() => {
+    setIsImageLoading(true);
+    
+    // Timer fijo de 1.1 segundos
+    const timer = setTimeout(() => {
+      setIsImageLoading(false);
+    }, 1100);
+
+    return () => clearTimeout(timer);
+  }, [currentMainImage.url]);
 
   // Precargar imágenes del proyecto
   useEffect(() => {
@@ -192,15 +217,29 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
     }
   };
 
-  // Componente de estado de carga
+  // Componente de estado de carga mejorado
   const LoadingState = ({ message }: { message: string }) => (
-    <div className={styles.imageLoadingState}>
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-        className={styles.loadingSpinner}
-      />
-      <p className={styles.loadingMessage}>{message}</p>
+    <div className={styles.imageLoadingOverlay}>
+      <div className={styles.loadingContent}>
+        <motion.div
+          className={styles.loadingSpinner}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.p 
+          className={styles.loadingMessage}
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          {message}
+        </motion.p>
+        <motion.div 
+          className={styles.loadingProgress}
+          initial={{ width: 0 }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 3, ease: "easeInOut" }}
+        />
+      </div>
     </div>
   );
 
@@ -280,17 +319,41 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
                 }}
                 className={styles.mainImageWrapper}
               >
-                {loadingImages.has(currentMainImage.url) ? (
-                  <LoadingState message="Cargando imagen de alta calidad..." />
-                ) : imageErrors.has(currentMainImage.url) ? (
-                  <ErrorState message="Imagen no disponible" />
-                ) : (
-                  <img 
-                    src={currentMainImage.url} 
-                    alt={currentMainImage.name}
-                    className={styles.mainImage}
-                  />
-                )}
+                <img 
+                  src={currentMainImage.url} 
+                  alt={currentMainImage.name}
+                  className={styles.mainImage}
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                />
+                
+                {/* Overlay de carga */}
+                <AnimatePresence>
+                  {isImageLoading && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <LoadingState message="Cargando imagen de alta calidad..." />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                
+                {/* Overlay de error */}
+                <AnimatePresence>
+                  {imageErrors.has(currentMainImage.url) && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ErrorState message="Imagen no disponible" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             </AnimatePresence>
 
