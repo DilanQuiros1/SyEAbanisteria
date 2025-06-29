@@ -61,8 +61,8 @@ export default function ProjectCard({ project, selectedImages, onImageChange }: 
       project.images.forEach(img => {
         newLoadingImages.add(img.url);
       });
-      setLoadingImages(newLoadingImages);
-
+      setLoadingImages(loadingImages);
+      console.log(newLoadingImages);
       // Cargar imágenes en paralelo
       const loadPromises = project.images.map(async (image) => {
         try {

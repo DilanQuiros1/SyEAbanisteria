@@ -133,7 +133,7 @@ export default function Header() {
             {[
               { href: '#inicio', text: 'Inicio' },
               { href: '#servicios', text: 'Servicios' },
-              { href: '#galeria', text: 'Galería' },
+              { href: '#galeria', text: 'Proyectos' },
               { href: '#contacto', text: 'Contacto' }
             ].map((link, index) => (
               <motion.li 
